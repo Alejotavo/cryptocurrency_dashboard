@@ -19,9 +19,9 @@ const { data, error, loading } = useCrypto();
     <table className="min-w-full">
       <thead>
         <tr>
-          <th className="text-left p-4">Coin</th>
-          <th className="text-right p-4">Price (USD)</th>
-          <th className="text-right p-4">Price Change (24h)</th>
+          <th className="text-left p-4 text-sm">Coin</th>
+          <th className="text-right p-4 text-sm">Price (USD)</th>
+          <th className="text-right p-4 text-sm">Price Change (24h)</th>
         </tr>
       </thead>
       <tbody>

@@ -27,7 +27,7 @@ function CryptoDetailsPage() {
         <div className="flex flex-col items-center">
           <img src={crypto.image} alt={crypto.name} width={40} />
           <Link to="/" className="text-blue-600 underline mt-2">
-            Back to Home
+            Back to ome
           </Link>
         </div>
       </div>
