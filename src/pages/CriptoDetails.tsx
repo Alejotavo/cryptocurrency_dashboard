@@ -9,15 +9,13 @@ function CryptoDetailsPage() {
     const { data, error, loading } = useCrypto();
     const crypto = data.find((item) => item.id === id);
 
-    const prices = crypto?.sparkline_in_7d.price || [];
-    const minPrice = Math.min(...prices);
 
     const chartData = crypto?.sparkline_in_7d.price.map((price: number, index: number) => {
 
       const day = Math.floor(index / 24) + 1;
       return {
         day: `Day ${day}`,
-        price: price - minPrice
+        price,
       };
     });
 
@@ -59,7 +57,11 @@ function CryptoDetailsPage() {
                     <Line type="monotone" dataKey="price" stroke="#8884d8" dot={false} />
                     <XAxis dataKey="day" interval={23} />
                     <YAxis />
-                    <Tooltip />
+                    <Tooltip formatter={(value) => value.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                        maximumFractionDigits: 2,
+                    })} />
                     <Legend />
                   </LineChart>
                 </ResponsiveContainer>
