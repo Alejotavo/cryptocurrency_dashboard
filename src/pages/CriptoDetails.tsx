@@ -1,12 +1,25 @@
 import { Link, useParams } from "react-router-dom";
 import Spinner from "../components/spinner/Spinner";
 import { useCrypto } from "../context/useCrypto";
+import { LineChart, Line, XAxis, YAxis, Legend, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 
 function CryptoDetailsPage() {
 
     const { id } = useParams();
     const { data, error, loading } = useCrypto();
     const crypto = data.find((item) => item.id === id);
+
+    const prices = crypto?.sparkline_in_7d.price || [];
+    const minPrice = Math.min(...prices);
+
+    const chartData = crypto?.sparkline_in_7d.price.map((price: number, index: number) => {
+
+      const day = Math.floor(index / 24) + 1;
+      return {
+        day: `Day ${day}`,
+        price: price - minPrice
+      };
+    });
 
   if (loading) {
     return <Spinner />
@@ -17,19 +30,41 @@ function CryptoDetailsPage() {
   }
 
   return (
-    <div className="container mx-auto mt-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 w-full md:w-1/2 border-1 border-gray-200 p-4 rounded">
-        <div>
-          <label className="block font-semibold">{crypto.name}</label>
-          <p className="mb-4">{crypto.symbol.toUpperCase()}</p>
-          <p>{crypto.total_volume}</p>
-        </div>
-        <div className="flex flex-col items-center">
-          <img src={crypto.image} alt={crypto.name} width={40} />
-          <Link to="/" className="text-blue-600 underline mt-2">
-            Back to ome
-          </Link>
-        </div>
+  <div className="container mx-auto mt-10">
+    <div className="flex flex-col md:flex-row">
+        <div className="w-full md:w-1/3 p-4">
+          <div className="border border-gray-200 p-4">
+            <label className="block font-semibold">{crypto.name}</label>
+            <p className="mb-4">{crypto.symbol.toUpperCase()}</p>
+            <p>{crypto.current_price.toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+                maximumFractionDigits: 2, 
+                })}</p>
+            <img src={crypto.image} alt={crypto.name} width={40} />
+          </div>
+          <div className="flex flex-col items-center">
+            
+            <Link to="/" className="text-blue-600 underline mt-2">
+              Back to home
+            </Link>
+          </div>
+          </div>
+          <div className="w-full p-4">
+              <div className="h-[300px]"> 
+                <h2>Price Variation from Last 7 Days</h2>
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Line type="monotone" dataKey="price" stroke="#8884d8" dot={false} />
+                    <XAxis dataKey="day" interval={23} />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+          </div>
       </div>
     </div>
 
