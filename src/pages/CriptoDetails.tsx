@@ -39,17 +39,33 @@ function CryptoDetailsPage() {
               <img src={crypto.image} alt={crypto.name} width={30} />
               <label className="block font-semibold">{crypto.name}</label>
               <label className="text-sm  text-gray-400">{crypto.symbol.toUpperCase()}</label>
+              <div className={`text-sm ${crypto.price_change_percentage_24h < 0 ? 'text-red-500' : 'text-green-500'}` }>
+                {crypto.price_change_percentage_24h < 0 ? "↓" : "↑"}{" "}
+                {Math.abs(crypto.price_change_percentage_24h).toFixed(1)}%
+              </div>
             </div>
-            <div className="flex flex-col ml-10 text-2xl">
+            <div className="flex flex-col ml-10 mt-5 text-2xl">
               <p>{crypto.current_price.toLocaleString("en-US", {
                   style: "currency",
                   currency: "USD",
                   maximumFractionDigits: 2, 
                   })}{" "}USD
               </p>
-              <div className={`mt-4 text-lg ${crypto.price_change_percentage_24h < 0 ? 'text-red-500' : 'text-green-500'}` }>
-                {crypto.price_change_percentage_24h < 0 ? "↓" : "↑"}{" "}
-                {Math.abs(crypto.price_change_percentage_24h).toFixed(1)}%
+              <div className="text-sm mt-4">
+                <h4 className="text-gray-400">All Time Hight:</h4>
+                <div className="mb-4 font-medium">{crypto.ath.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    maximumFractionDigits: 2,
+                  })} on {new Date(crypto.ath_date).toLocaleDateString("en-US")}
+                </div>
+                <h4 className="text-gray-400">All Time Low:</h4>
+                <div className="font-medium">{crypto.atl.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    maximumFractionDigits: 2,
+                  })} on {new Date(crypto.atl_date).toLocaleDateString("en-US")}
+                </div>
               </div>
             </div>          
           </div>
