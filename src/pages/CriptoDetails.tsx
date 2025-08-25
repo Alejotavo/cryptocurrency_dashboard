@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import Spinner from "../components/spinner/Spinner";
 import { useCrypto } from "../context/useCrypto";
-import { LineChart, Line, XAxis, YAxis, Legend, CartesianGrid, ResponsiveContainer, Tooltip, Area, AreaChart } from 'recharts';
+import { XAxis, YAxis, Legend, CartesianGrid, ResponsiveContainer, Tooltip, Area, AreaChart } from 'recharts';
 
 function CryptoDetailsPage() {
 
