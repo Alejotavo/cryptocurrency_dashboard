@@ -28,11 +28,15 @@ function CryptoDetailsPage() {
   }
 
   return (
-  <div className="container mx-auto mt-10">
+  <div className="container mx-auto md:mt-10">
     <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-1/3 p-4 border-r border-gray-200 ">
-          <div className="p-4">
-            <div className="flex flex-row items-center mb-4 gap-2">
+        <div className="w-full md:w-1/3 p-4 border-r border-gray-200">
+            <div className="mt-3">
+              <Link to="/" className="text-blue-600 text-sm">
+                Back to List
+              </Link>
+            </div>
+            <div className="flex flex-row items-center mb-4 mt-4 gap-2">
               <img src={crypto.image} alt={crypto.name} width={30} />
               <label className="block font-semibold">{crypto.name}</label>
               <label className="text-sm  text-gray-400">{crypto.symbol.toUpperCase()}</label>
@@ -48,14 +52,7 @@ function CryptoDetailsPage() {
                 {crypto.price_change_percentage_24h < 0 ? "↓" : "↑"}{" "}
                 {Math.abs(crypto.price_change_percentage_24h).toFixed(1)}%
               </div>
-            </div>
-          </div>
-          <div className="flex flex-col items-center">
-            
-            <Link to="/" className="text-blue-600 underline mt-2">
-              Back to home
-            </Link>
-          </div>
+            </div>          
           </div>
           <div className="w-full p-4">
               <div className="h-[300px]"> 
