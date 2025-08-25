@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import Spinner from "../components/spinner/Spinner";
 import { useCrypto } from "../context/useCrypto";
-import { LineChart, Line, XAxis, YAxis, Legend, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Legend, CartesianGrid, ResponsiveContainer, Tooltip, Area, AreaChart } from 'recharts';
 
 function CryptoDetailsPage() {
 
@@ -11,7 +11,6 @@ function CryptoDetailsPage() {
 
 
     const chartData = crypto?.sparkline_in_7d.price.map((price: number, index: number) => {
-
       const day = Math.floor(index / 24) + 1;
       return {
         day: `Day ${day}`,
@@ -58,9 +57,15 @@ function CryptoDetailsPage() {
               <div className="h-[300px]"> 
                 <h2 className="text-lg font-semibold p-4">Price Variation from Last 7 Days</h2>
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={chartData}>
+                  <AreaChart data={chartData}>
+                    <defs>
+                      <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="#e44141ff" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <Line type="monotone" dataKey="price" stroke="#8884d8" dot={false} />
+                    <Area type="monotone" dataKey="price" stroke="#8884d8" strokeWidth={2}  fill="url(#colorPrice)" />
                     <XAxis dataKey="day" interval={23} />
                     <YAxis />
                     <Tooltip formatter={(value) => value.toLocaleString("en-US", {
@@ -69,7 +74,7 @@ function CryptoDetailsPage() {
                         maximumFractionDigits: 2,
                     })} />
                     <Legend />
-                  </LineChart>
+                  </AreaChart>
                 </ResponsiveContainer>
               </div>
           </div>
