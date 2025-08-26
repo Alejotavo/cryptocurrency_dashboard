@@ -6,7 +6,12 @@ function FavoritesPage() {
     const { favorites, removeFavorite } = useFavorites();
   return (
     <div className="container mx-auto mt-10">
+        <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold mb-4">Favorites</h1>
+            <Link to="/" className="text-blue-600 text-sm">
+            Back to List
+            </Link>
+        </div>
         <ul>
             {favorites.length === 0 ? (
                 <li>No favorites added yet.</li>
