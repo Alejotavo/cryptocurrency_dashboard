@@ -4,6 +4,7 @@ import ErrorComponent from "../error/error";
 import Spinner from "../spinner/Spinner";
 import useFilteredData from "./useFilteredData";
 import { useFavorites } from "../../context/useFavorites";
+import useSortedData from "./useSortedData";
 
 
 interface TableProps {
@@ -15,6 +16,9 @@ function Table({ searchTerm }: TableProps) {
 const { data, error, loading } = useCrypto();
 const { favorites, addFavorite, removeFavorite } = useFavorites();
 const filteredData = useFilteredData(data, searchTerm);
+const { sortedData, asc, sortByPrice, sortByPriceChange } = useSortedData(filteredData);
+
+
 
   if (error) {
     return <ErrorComponent message={error} />;
@@ -29,12 +33,22 @@ const filteredData = useFilteredData(data, searchTerm);
       <thead>
         <tr>
           <th className="text-left p-4 text-sm">Coin</th>
-          <th className="text-right p-4 text-sm">Price (USD)</th>
-          <th className="text-right p-4 text-sm">Price Change (24h)</th>
+          <th className="text-right p-4 text-sm">
+            Price (USD)
+            <button onClick={sortByPrice} className="ml-2 text-xs bg-gray-200 p-1 rounded">
+              {asc ? "↑" : "↓"}
+            </button>
+          </th>
+          <th className="text-right p-4 text-sm">
+            Price Change (24h)
+            <button onClick={sortByPriceChange} className="ml-2 text-xs bg-gray-200 p-1 rounded">
+              {asc ? "↑" : "↓"}
+            </button>
+            </th>
         </tr>
       </thead>
       <tbody>
-        {filteredData.map((item) => (
+        {sortedData.map((item) => (
           <tr key={item.id} className="table-row hover:bg-gray-100 border-b border-gray-200">
             <td className="p-4 flex">
               <input type="checkbox"  className="mr-3" checked={favorites.some((fav) => fav.id === item.id)} onChange={(e) => {
