@@ -2,10 +2,19 @@ import { Link } from "react-router-dom";
 import { useCrypto } from "../../context/useCrypto";
 import ErrorComponent from "../error/error";
 import Spinner from "../spinner/Spinner";
+import useFilteredData from "./useFilteredData";
 
-function Table() {
+
+interface TableProps {
+  searchTerm: string;
+}
+
+function Table({ searchTerm }: TableProps) {
 
 const { data, error, loading } = useCrypto();
+const filteredData = useFilteredData(data, searchTerm);
+
+
 
   if (error) {
     return <ErrorComponent message={error} />;
@@ -25,7 +34,7 @@ const { data, error, loading } = useCrypto();
         </tr>
       </thead>
       <tbody>
-        {data.map((item) => (
+        {filteredData.map((item) => (
           <tr key={item.id} className="table-row hover:bg-gray-100 border-b border-gray-200">
             <td className="p-4 flex">
               <input type="checkbox"  className="mr-3"/>
