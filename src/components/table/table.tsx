@@ -3,6 +3,7 @@ import { useCrypto } from "../../context/useCrypto";
 import ErrorComponent from "../error/error";
 import Spinner from "../spinner/Spinner";
 import useFilteredData from "./useFilteredData";
+import { useFavorites } from "../../context/useFavorites";
 
 
 interface TableProps {
@@ -12,9 +13,8 @@ interface TableProps {
 function Table({ searchTerm }: TableProps) {
 
 const { data, error, loading } = useCrypto();
+const { favorites, addFavorite, removeFavorite } = useFavorites();
 const filteredData = useFilteredData(data, searchTerm);
-
-
 
   if (error) {
     return <ErrorComponent message={error} />;
@@ -37,7 +37,13 @@ const filteredData = useFilteredData(data, searchTerm);
         {filteredData.map((item) => (
           <tr key={item.id} className="table-row hover:bg-gray-100 border-b border-gray-200">
             <td className="p-4 flex">
-              <input type="checkbox"  className="mr-3"/>
+              <input type="checkbox"  className="mr-3" checked={favorites.some((fav) => fav.id === item.id)} onChange={(e) => {
+                if (e.target.checked) {
+                  addFavorite(item);
+                } else {
+                  removeFavorite(item.id);
+                }
+              }}/>
               <Link className="flex font-medium items-center" to={`/crypto/${item.id}`}>
                 <img src={item.image} alt={item.name} width={20} className="inline mr-2" />
                 <span>{item.name}</span>
