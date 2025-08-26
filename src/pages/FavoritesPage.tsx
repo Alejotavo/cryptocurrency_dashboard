@@ -4,7 +4,7 @@ import { useFavorites } from "../context/useFavorites";
 function FavoritesPage() {
     const { favorites } = useFavorites();
   return (
-    <div>
+    <div className="container mx-auto mt-10">
         <h1 className="text-2xl font-bold mb-4">Favorites</h1>
         <ul>
             {favorites.length === 0 ? (

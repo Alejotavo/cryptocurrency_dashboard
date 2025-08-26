@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Search from "../components/Search/Search"
-import Table from "../components/table/Table"
+import Table from "../components/table/Table";
 import { Link } from "react-router-dom";
 
 function Dashboard() {
